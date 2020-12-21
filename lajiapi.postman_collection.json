@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "bdfd809b-4b07-4cd2-afa7-a15bd9b8ae70",
+		"name": "垃圾api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "查询垃圾分类",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"成功返回内容\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"success\");\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.reason).to.eql('success');\r",
+							"});\r",
+							"\r",
+							"var jsonData=pm.response.json();\r",
+							"pm.environment.set(\"q_name\", jsonData.result[0].common[0]+jsonData.result[0].common[1]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://apis.juhe.cn/rubbish/category?key=111341edf22dcb1eb43221734fd9eb6c",
+					"protocol": "http",
+					"host": [
+						"apis",
+						"juhe",
+						"cn"
+					],
+					"path": [
+						"rubbish",
+						"category"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "111341edf22dcb1eb43221734fd9eb6c"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查询关键字垃圾分类信息",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.result[0].itemCategory).to.eql('可回收垃圾');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://apis.juhe.cn/rubbish/search?key=111341edf22dcb1eb43221734fd9eb6c&q={{q_name}}",
+					"protocol": "http",
+					"host": [
+						"apis",
+						"juhe",
+						"cn"
+					],
+					"path": [
+						"rubbish",
+						"search"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "111341edf22dcb1eb43221734fd9eb6c"
+						},
+						{
+							"key": "q",
+							"value": "{{q_name}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
